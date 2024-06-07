@@ -1,0 +1,821 @@
+------------------------------202304 202304
+
+
+
+select 
+r1.pays,
+r1.month_id,
+r1.Date_Valid,
+r1.Activity_Flag,
+r1.New_Client_Flag,
+
+r1.Segments_od,
+r1.seg_client_tag_detail,
+
+
+nvl(r2.flag_carte_owner,0) as flag_carte_owner,
+nvl(r2.flag_BANK_MOBILE,0) as flag_BANK_MOBILE,
+nvl(r2.flag_BANK_INTERNET,0) as flag_BANK_INTERNET,
+nvl(r3.flag_connect_owner,0) as flag_connect_owner,
+NVL(r4.flag_decouver_owner,0) as flag_decouver_owner,
+
+nvl(r7.flag_PPO_old,0)  flag_PPO_old,
+nvl(r7.flag_PPO,0)  flag_PPO,  
+nvl(r7.flag_PPI,0)   flag_PPI,
+nvl(r7.flag_PPI_old,0)   flag_PPI_old,
+
+nvl(r5.flag_Compte_courant,0)   flag_Compte_courant,
+nvl(r5.flag_Compte_courant_ppo,0)   flag_Compte_courant_ppo,
+nvl(r5.flag_Placement,0)   flag_Placement,
+nvl(r5.flag_Epargne,0)  flag_Epargne,
+
+count(distinct(r1.Party_Id)) as stock,
+sum(nvl(activity_flag,0)) as stock_actif,
+sum(nvl(New_Client_Flag,0)) as stock_eer,
+
+sum(nvl(r2.prod_carte,0)) as prod_carte,
+sum(nvl(r2.stock_carte,0)) as stock_carte,
+
+sum(nvl(r3.prod_connect,0)) as prod_connect,
+sum(nvl(r3.stock_connect,0)) as stock_connect,
+
+sum(nvl(r2.prod_BANK_MOBILE,0))   prod_BANK_MOBILE,
+sum(nvl(r2.stock_BANK_MOBILE,0))   stock_BANK_MOBILE,
+
+sum(nvl(r2.prod_BANK_INTERNET,0))   prod_BANK_INTERNET,
+sum(nvl(r2.stock_BANK_INTERNET,0))   stock_BANK_INTERNET,
+
+
+
+sum(nvl(r4.prod_decouver,0)) prod_decouver,
+sum(nvl(r4.prod_decouver_mtn_autorise_lc,0)) prod_decouver_mtn_autorise_lc,
+sum(nvl(r4.prod_decouver_mtn_autorise,0)) prod_decouver_mtn_autorise,
+sum(nvl(r4.stock_decouver,0)) stock_decouver,
+sum(nvl(r4.mtn_decouver_lc,0)) mtn_decouver_lc,
+sum(nvl(r4.mtn_decouver,0)) mtn_decouver,
+sum(nvl(r4.decouver_mtn_autorise_lc,0)) decouver_mtn_autorise_lc,
+sum(nvl(r4.decouver_mtn_autorise,0)) decouver_mtn_autorise,
+
+
+sum(nvl(r5.prod_Compte_courant,0))   prod_Compte_courant,
+sum(nvl(r5.stock_Compte_courant,0))  stock_Compte_courant ,
+sum(nvl(r5.encours_Compte_courant,0)) encours_Compte_courant, 
+sum(nvl(r5.encours_Compte_courant_lc,0)) encours_Compte_courant_lc, 
+sum(nvl(r5.encours_Compte_courant_posi,0)) encours_Compte_courant_posi, 
+sum(nvl(r5.encours_Compte_courant_posi_lc,0)) encours_Compte_courant_posi_lc, 
+
+sum(nvl(r5.prod_Placement,0))   prod_Placement,
+sum(nvl(r5.stock_Placement,0))  stock_Placement ,
+sum(nvl(r5.encours_Placement,0)) encours_Placement, 
+sum(nvl(r5.encours_Placement_lc,0)) encours_Placement_lc, 
+sum(nvl(r5.encours_Placement_posi,0)) encours_Placement_posi, 
+sum(nvl(r5.encours_Placement_posi_lc,0)) encours_Placement_posi_lc, 
+
+sum(nvl(r5.prod_Epargne,0))   prod_Epargne,
+sum(nvl(r5.stock_Epargne,0))  stock_Epargne ,
+sum(nvl(r5.encours_Epargne,0)) encours_Epargne, 
+sum(nvl(r5.encours_Epargne_lc,0)) encours_Epargne_lc, 
+sum(nvl(r5.encours_Epargne_posi,0)) encours_Epargne_posi, 
+sum(nvl(r5.encours_Epargne_posi_lc,0)) encours_Epargne_posi_lc, 
+
+sum(nvl(r5.encours_Compte_courant_posi,0))+sum(nvl(r5.encours_Placement,0))+sum(nvl(r5.encours_Epargne,0)) encours_tot_depot, 
+sum(nvl(r5.encours_Compte_courant_posi_lc,0))+sum(nvl(r5.encours_Placement_lc,0))+sum(nvl(r5.encours_Epargne_lc,0)) encours_tot_depot_lc, 
+
+sum(nvl(r7.stock_PPO,0))   stock_PPO,
+sum(nvl(r7.encours_PPO_lc,0))   encours_PPO_lc,
+sum(nvl(r7.encours_PPO,0))   encours_PPO,
+sum(nvl(r7.nb_nvll_souscription_PPO,0))   nb_nvll_souscription_PPO,
+sum(nvl(r7.mtn_nvll_souscription_PPO_lc,0))   mtn_nvll_souscription_PPO_lc,
+sum(nvl(r7.mtn_nvll_souscription_PPO,0))   mtn_nvll_souscription_PPO,
+
+
+
+sum(nvl(r7.stock_PPI,0))   stock_PPI,
+sum(nvl(r7.encours_PPI_lc,0))   encours_PPI_lc,
+sum(nvl(r7.encours_PPI,0))   encours_PPI,
+sum(nvl(r7.nb_nvll_souscription_PPI,0))   nb_nvll_souscription_PPI,
+sum(nvl(r7.mtn_nvll_souscription_PPI_lc,0))   mtn_nvll_souscription_PPI_lc,
+sum(nvl(r7.mtn_nvll_souscription_PPI,0))   mtn_nvll_souscription_PPI
+
+
+
+from
+
+(
+select distinct j_1.pays, substr(to_char(cast(j_1.date_valid as date),'yyyymmdd'),1,6) as month_id, date_valid,
+j_1.party_id,  
+decode(j_1.activity_flag,'Y',1,0) activity_flag,
+decode(j_1.new_client_flag,'Y',1,0) new_client_flag,
+substr(j_1.Segmentation_Code_IBFS,1,5) as segmentation_code,
+
+case when segmentation_code='10101' then 'GRAND PUBLIC'
+when segmentation_code='10103' then 'BONNE GAMME'
+when segmentation_code='10104' then 'PATRIMONIAUX' else 'NON SEGMENTE' end as Segments_od,
+
+
+case
+when substr(j_1.Segmentation_Code_IBFS,1,3)='101' and j_1.Mandatory_product_Flag= 'Y' then 'Particulier'
+when substr(j_1.Segmentation_Code_IBFS,1,3)='102' and j_1.Mandatory_product_Flag= 'Y' then 'Profressionel'
+when j_1.segmentation_Code_IBFS='10301' and j_1.Mandatory_product_Flag= 'Y' then 'Profressionel'
+when substr(j_1.Segmentation_Code_IBFS,1,3) in ('201','202','203','301') or j_1.Segmentation_Code_IBFS='10302' then 'Corporate'
+else 'not def' end as seg_client_tag_detail
+
+from 
+(
+
+(
+select 'SGBEN' as pays, Relationship_Duration_Months, Inactivity_Months,party_id,date_valid,activity_flag,new_client_flag,Segmentation_Code_IBFS, Mandatory_product_Flag from ibfs_BEN_m_marketing_vu.vf_DM_Party_Detail  
+where org_structure_type='C' and party_status='C'  and client_count_flag='Y' and Mandatory_product_Flag= 'Y'  and substr(to_char(cast(date_valid as date),'yyyymmdd'),1,6)= '202304'
+) union all  
+
+(
+select 'SGBFA' as pays, Relationship_Duration_Months, Inactivity_Months,party_id,date_valid,activity_flag,new_client_flag,Segmentation_Code_IBFS, Mandatory_product_Flag from ibfs_BFA_m_marketing_vu.vf_DM_Party_Detail  
+where org_structure_type='C' and party_status='C'  and client_count_flag='Y' and Mandatory_product_Flag= 'Y'  and substr(to_char(cast(date_valid as date),'yyyymmdd'),1,6)= '202304'
+) union all  
+
+(
+select 'SGGHA' as pays, Relationship_Duration_Months, Inactivity_Months,party_id,date_valid,activity_flag,new_client_flag,Segmentation_Code_IBFS, Mandatory_product_Flag from ibfs_GHA_m_marketing_vu.vf_DM_Party_Detail  
+where org_structure_type='C' and party_status='C'  and client_count_flag='Y' and Mandatory_product_Flag= 'Y'  and substr(to_char(cast(date_valid as date),'yyyymmdd'),1,6)= '202304'
+) union all  
+
+(
+select 'SGCIV' as pays, Relationship_Duration_Months, Inactivity_Months,party_id,date_valid,activity_flag,new_client_flag,Segmentation_Code_IBFS, Mandatory_product_Flag from ibfs_CIV_m_marketing_vu.vf_DM_Party_Detail  
+where org_structure_type='C' and party_status='C'  and client_count_flag='Y' and Mandatory_product_Flag= 'Y'  and substr(to_char(cast(date_valid as date),'yyyymmdd'),1,6)= '202304'
+) 
+) j_1
+
+where seg_client_tag_detail='Particulier'
+
+)   r1  left join 
+
+
+-------- equipement carte, prod et stock
+
+(
+select ba.date_valid, to_char(cast(ba.date_valid as date),'yyyymm') as month_id, ba.seg_client_tag_detail, ba.pays,ba.party_id,
+ 
+max(ba.flag_CARD*ba.product_count_flag) as flag_carte_owner,
+sum(ba.flag_CARD*ba.New_Product_Flag) as prod_carte, 
+sum(ba.flag_CARD*ba.product_count_flag) stock_carte,
+
+max(ba.flag_BANK_MOBILE*ba.product_count_flag) as flag_BANK_MOBILE,
+sum(ba.flag_BANK_MOBILE*ba.New_Product_Flag) as prod_BANK_MOBILE, 
+sum(ba.flag_BANK_MOBILE*ba.product_count_flag) stock_BANK_MOBILE,
+
+max(ba.flag_BANK_INTERNET*ba.product_count_flag) as flag_BANK_INTERNET,
+sum(ba.flag_BANK_INTERNET*ba.New_Product_Flag) as prod_BANK_INTERNET, 
+sum(ba.flag_BANK_INTERNET*ba.product_count_flag) stock_BANK_INTERNET
+
+
+from 
+(
+select distinct agr.Pays, agr.date_valid,agr.party_id,agr.New_Product_Flag,Agreement_Id,product_count_flag,
+case
+when substr(agr.Segmentation_Code_IBFS,1,3)='101' and agr.Mandatory_product_Flag= 'Y' then 'Particulier'
+when substr(agr.Segmentation_Code_IBFS,1,3)='102' and agr.Mandatory_product_Flag= 'Y' then 'Profressionel'
+when agr.segmentation_Code_IBFS='10301' and agr.Mandatory_product_Flag= 'Y' then 'Profressionel'
+when substr(agr.Segmentation_Code_IBFS,1,3) in ('201','202','203','301') or agr.Segmentation_Code_IBFS='10302' then 'Corporate'
+else 'not def' end seg_client_tag_detail, 
+case
+when substr(agr.Segmentation_Code_IBFS,1,3)='101' and agr.Mandatory_product_Flag= 'Y' then 'Retail'
+when substr(agr.Segmentation_Code_IBFS,1,3)='102' and agr.Mandatory_product_Flag= 'Y' then 'Retail'
+when agr.Segmentation_Code_IBFS='10301' and agr.Mandatory_product_Flag= 'Y' then 'Retail'
+when substr(agr.Segmentation_Code_IBFS,1,3) in ('201','202','203','301') or agr.Segmentation_Code_IBFS='10302' then 'Corporate'
+else 'not def' end seg_client_tag_glo,
+
+case when Product_group_code_4 like '1REPYCA%' then 'CARD'
+when Product_group_code_4 like '1REBDTM%' then 'BANK_MOBILE' else 'BANK_INTERNET' end as type_product,
+case when type_product='CARD' then 1 else 0 end as flag_CARD,
+case when type_product='BANK_MOBILE' then 1 else 0 end as flag_BANK_MOBILE,
+case when type_product='BANK_INTERNET' then 1 else 0 end as flag_BANK_INTERNET
+
+from 
+
+---------------- Agreement tables for entities
+
+(
+
+(
+select 'SGBEN' pays, rh1.product_code, rh1.date_valid, rh1.party_id,rh1.Segmentation_Code_IBFS,rh1.Mandatory_product_Flag, decode(rh1.New_Product_Flag,'Y',1,0)  New_Product_Flag, decode(rh1.product_count_flag,'Y',1,0) product_count_flag, rh1.Agreement_Id 
+from  ibfs_BEN_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'   and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y'and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304'  
+------and rh1.product_count_flag='Y' 
+)  union all
+
+(
+select 'SGCIV' pays, rh1.product_code, rh1.date_valid, rh1.party_id,rh1.Segmentation_Code_IBFS,rh1.Mandatory_product_Flag, decode(rh1.New_Product_Flag,'Y',1,0)  New_Product_Flag, decode(rh1.product_count_flag,'Y',1,0) product_count_flag, rh1.Agreement_Id 
+from  ibfs_CIV_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'   and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y'and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304'  
+------and rh1.product_count_flag='Y' 
+)  union all
+
+(
+select 'SGBFA' pays, rh1.product_code, rh1.date_valid, rh1.party_id,rh1.Segmentation_Code_IBFS,rh1.Mandatory_product_Flag, decode(rh1.New_Product_Flag,'Y',1,0)  New_Product_Flag, decode(rh1.product_count_flag,'Y',1,0) product_count_flag, rh1.Agreement_Id 
+from  ibfs_BFA_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'   and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y'and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304'  
+------and rh1.product_count_flag='Y' 
+)  union all
+
+(
+select 'SGGHA' pays, rh1.product_code, rh1.date_valid, rh1.party_id,rh1.Segmentation_Code_IBFS,rh1.Mandatory_product_Flag, decode(rh1.New_Product_Flag,'Y',1,0)  New_Product_Flag, decode(rh1.product_count_flag,'Y',1,0) product_count_flag, rh1.Agreement_Id 
+from  ibfs_GHA_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'   and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y'and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304'  
+------and rh1.product_count_flag='Y' 
+) 
+
+) agr
+
+
+
+inner join 
+
+---------------- products threes
+
+(
+(select  'SGBEN'  pays ,  s1.* from ibfs_BEN_rep.V_C_product_MKTRE   s1 where   s1.product_group_code_3 in ('1REPYCA','1REBDTM','1REBDBI'))  union all
+(select  'SGCIV'  pays ,  s1.* from ibfs_CIV_rep.V_C_product_MKTRE   s1 where   s1.product_group_code_3 in ('1REPYCA','1REBDTM','1REBDBI'))  union all
+(select  'SGBFA'  pays ,  s1.* from ibfs_BFA_rep.V_C_product_MKTRE   s1 where   s1.product_group_code_3 in ('1REPYCA','1REBDTM','1REBDBI'))  union all
+(select  'SGGHA'  pays ,  s1.* from ibfs_GHA_rep.V_C_product_MKTRE   s1 where   s1.product_group_code_3 in ('1REPYCA','1REBDTM','1REBDBI')) 
+
+) pdr on pdr.product_code=agr.product_code and pdr.pays=agr.pays
+
+where seg_client_tag_detail in ('Particulier','Particulier')
+
+) ba
+
+group by ba.date_valid, to_char(cast(ba.date_valid as date),'yyyymm') , ba.seg_client_tag_detail, ba.pays,ba.party_id
+
+) r2 
+
+on r1.party_id=r2.party_id and r1.month_id=r2.month_id and r1.pays=r2.pays left join
+
+
+
+-------- equipement connect , prod et stock
+
+(
+
+select agr.date_valid,to_char(cast(agr.date_valid as date),'yyyymm') as month_id, agr.pays, agr.party_id,  
+
+sum(New_Product_Flag) as prod_connect, sum(product_count_flag) stock_connect, max(product_count_flag) as flag_connect_owner
+
+from 
+(
+select distinct j_2.Pays, j_2.date_valid,j_2.party_id,product_code,j_2.New_Product_Flag,Agreement_Id,product_count_flag,
+case
+when substr(j_2.Segmentation_Code_IBFS,1,3)='101' and j_2.Mandatory_product_Flag= 'Y' then 'Particulier'
+when substr(j_2.Segmentation_Code_IBFS,1,3)='102' and j_2.Mandatory_product_Flag= 'Y' then 'Profressionel'
+when j_2.segmentation_Code_IBFS='10301' and j_2.Mandatory_product_Flag= 'Y' then 'Profressionel'
+when substr(j_2.Segmentation_Code_IBFS,1,3) in ('201','202','203','301') or j_2.Segmentation_Code_IBFS='10302' then 'Corporate'
+else 'not def' end seg_client_tag_detail, 
+case
+when substr(j_2.Segmentation_Code_IBFS,1,3)='101' and j_2.Mandatory_product_Flag= 'Y' then 'Retail'
+when substr(j_2.Segmentation_Code_IBFS,1,3)='102' and j_2.Mandatory_product_Flag= 'Y' then 'Retail'
+when j_2.Segmentation_Code_IBFS='10301' and j_2.Mandatory_product_Flag= 'Y' then 'Retail'
+when substr(j_2.Segmentation_Code_IBFS,1,3) in ('201','202','203','301') or j_2.Segmentation_Code_IBFS='10302' then 'Corporate'
+else 'not def' end seg_client_tag_glo
+from 
+(
+
+(
+select 'SGBEN' pays, rh1.product_code, rh1.date_valid, rh1.party_id,rh1.Segmentation_Code_IBFS,rh1.Mandatory_product_Flag, decode(rh1.New_Product_Flag,'Y',1,0)  New_Product_Flag, decode(rh1.product_count_flag,'Y',1,0) product_count_flag, rh1.Agreement_Id 
+from  ibfs_BEN_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'   and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y' and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304' 
+-----and rh1.product_count_flag='Y' 
+) union all
+
+(
+select 'SGBFA' pays, rh1.product_code, rh1.date_valid, rh1.party_id,rh1.Segmentation_Code_IBFS,rh1.Mandatory_product_Flag, decode(rh1.New_Product_Flag,'Y',1,0)  New_Product_Flag, decode(rh1.product_count_flag,'Y',1,0) product_count_flag, rh1.Agreement_Id 
+from  ibfs_BFA_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'   and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y' and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304' 
+-----and rh1.product_count_flag='Y' 
+) union all
+
+(
+select 'SGGHA' pays, rh1.product_code, rh1.date_valid, rh1.party_id,rh1.Segmentation_Code_IBFS,rh1.Mandatory_product_Flag, decode(rh1.New_Product_Flag,'Y',1,0)  New_Product_Flag, decode(rh1.product_count_flag,'Y',1,0) product_count_flag, rh1.Agreement_Id 
+from  ibfs_GHA_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'   and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y' and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304' 
+-----and rh1.product_count_flag='Y' 
+) union all
+
+(
+select 'SGCIV' pays, rh1.product_code, rh1.date_valid, rh1.party_id,rh1.Segmentation_Code_IBFS,rh1.Mandatory_product_Flag, decode(rh1.New_Product_Flag,'Y',1,0)  New_Product_Flag, decode(rh1.product_count_flag,'Y',1,0) product_count_flag, rh1.Agreement_Id 
+from  ibfs_CIV_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'   and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y' and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304' 
+-----and rh1.product_count_flag='Y' 
+) 
+
+
+) j_2        
+)agr
+
+inner join 
+
+(
+
+(select  'SGCIV'  pays ,  s11.product_code, s11.Product_Group_Name_1 from ibfs_CIV_rep.V_C_product_MKTRE   s11 where   s11.Product_Code in ('012000')) union all
+(select  'SGGHA'  pays ,  s11.product_code, s11.Product_Group_Name_1 from ibfs_GHA_rep.V_C_product_MKTRE   s11 where   s11.Product_Code in ('006000')) union all
+(select  'SGBFA'  pays ,  s11.product_code, s11.Product_Group_Name_1 from ibfs_BFA_rep.V_C_product_MKTRE   s11 where   s11.Product_Code in ('108000')) union all
+(select  'SGBEN'  pays ,  s11.product_code, s11.Product_Group_Name_1 from ibfs_BEN_rep.V_C_product_MKTRE   s11 where   s11.Product_Code in ('323000')) 
+
+) pdr on pdr.product_code=agr.product_code and pdr.pays=agr.pays and pdr.Product_Group_Name_1=agr.seg_client_tag_glo
+
+where seg_client_tag_detail='Particulier'
+
+group by agr.date_valid,to_char(cast(agr.date_valid as date),'yyyymm'), agr.pays, agr.party_id 
+
+
+) r3 on r1.party_id=r3.party_id and  r1.month_id=r3.month_id and  r1.pays=r3.pays left join
+
+
+
+
+-------- equipement decouvert
+(
+
+
+select  ba.date_valid, ba.seg_client_tag_detail, ba.month_id, ba.entity,ba.party_Id,
+
+max((ba.type_nx*ba.product_count_flag)) as flag_decouver_owner,
+sum(ba.type_nx*ba.product_count_flag) as stock_decouver,
+sum(ba.type_nx*ba.product_count_flag*abs(ba.Product_amt_LC)) as mtn_decouver_lc,
+sum(ba.type_nx*ba.product_count_flag*abs(ba.Product_amt_euro)) as mtn_decouver,
+sum(ba.type_nx*ba.product_count_flag*ba.Authorized_Amt_LC) as decouver_mtn_autorise_lc,
+sum(ba.type_nx*ba.product_count_flag*ba.Authorized_Amt_euro) as decouver_mtn_autorise,
+
+sum(ba.type_nx_amt_autho*ba.New_Product_Flag) as prod_decouver,
+sum(ba.type_nx_amt_autho*ba.New_Product_Flag*Authorized_Amt_LC) as prod_decouver_mtn_autorise_lc,
+sum(ba.type_nx_amt_autho*ba.New_Product_Flag*Authorized_Amt_euro) as prod_decouver_mtn_autorise
+
+
+from 
+
+(
+select agr.entity,agr.month_id,agr.date_valid,agr.party_Id,agr.Agreement_Id,
+
+agr.Product_amt_LC/tx.Rate_Value as Product_amt_euro, agr.Product_amt_LC,
+agr.Sale_Amt_LC/tx.Rate_Value as  Sale_Amt_euro, agr.Sale_Amt_LC,
+agr.Authorized_Amt_LC/tx.Rate_Value as  Authorized_Amt_euro, agr.Authorized_Amt_LC,
+
+case when abs(agr.Product_amt_LC)>=0 then 1 else 0 end type_nx, case when abs(agr.Authorized_Amt_LC)>=0 then 1 else 0 end type_nx_amt_autho,
+case when abs(agr.Product_amt_LC)>0 then 1 else 0 end type_st,
+decode(agr.New_Product_Flag,'Y',1,0)  New_Product_Flag,
+decode(product_count_flag,'Y',1,0) product_count_flag,
+
+case
+when substr(Segmentation_Code_IBFS,1,3)='101' and Mandatory_product_Flag= 'Y' then 'Particulier'
+when substr(Segmentation_Code_IBFS,1,3)='102' and Mandatory_product_Flag= 'Y' then 'Professionel'
+when segmentation_Code_IBFS='10301' and Mandatory_product_Flag= 'Y' then 'Professionel'
+when substr(Segmentation_Code_IBFS,1,3) in ('201','202','203','301') or Segmentation_Code_IBFS='10302' then 'Corporate'
+else 'not def' end as seg_client_tag_detail
+
+
+from 
+
+---------------- Agreement tables for entities
+
+(
+
+(
+select 'SGBEN' entity, 
+rh1.New_Product_Flag, rh1.date_valid, rh1.Segmentation_Code_IBFS,rh1.product_count_flag, rh1.Mandatory_product_Flag,rh1.Party_Id,rh1.Sale_Amt_LC,rh1.Authorized_Amt_LC,  
+to_char(cast(rh1.date_valid as date),'yyyymm') as month_id, rh1.Product_amt_LC, rh1.Agreement_Id, rh1.product_code
+from  ibfs_BEN_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'  
+ and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y'and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304'  
+------and rh1.product_count_flag='Y' 
+)  union all
+
+(
+select 'SGCIV' entity, 
+rh1.New_Product_Flag, rh1.date_valid, rh1.Segmentation_Code_IBFS,rh1.product_count_flag, rh1.Mandatory_product_Flag,rh1.Party_Id,rh1.Sale_Amt_LC,rh1.Authorized_Amt_LC,  
+to_char(cast(rh1.date_valid as date),'yyyymm') as month_id, rh1.Product_amt_LC, rh1.Agreement_Id, rh1.product_code
+from  ibfs_CIV_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'  
+and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y'and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304'  
+-------Manko exclusion
+----- and rh1.Profile_Code not in ('810', '820', '830', '840', '850')
+------and rh1.product_count_flag='Y' 
+)  union all
+
+(
+select 'SGBFA' entity, 
+rh1.New_Product_Flag, rh1.date_valid, rh1.Segmentation_Code_IBFS,rh1.product_count_flag, rh1.Mandatory_product_Flag,rh1.Party_Id,rh1.Sale_Amt_LC,rh1.Authorized_Amt_LC,  
+to_char(cast(rh1.date_valid as date),'yyyymm') as month_id, rh1.Product_amt_LC, rh1.Agreement_Id, rh1.product_code
+from  ibfs_BFA_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'  
+and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y'and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304'  
+------and rh1.product_count_flag='Y' 
+)  union all
+
+(
+select 'SGGHA' entity, 
+rh1.New_Product_Flag, rh1.date_valid, rh1.Segmentation_Code_IBFS,rh1.product_count_flag, rh1.Mandatory_product_Flag,rh1.Party_Id, rh1.Sale_Amt_LC,rh1.Authorized_Amt_LC, 
+to_char(cast(rh1.date_valid as date),'yyyymm') as month_id, rh1.Product_amt_LC, rh1.Agreement_Id, rh1.product_code
+from  ibfs_GHA_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'  
+and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y'and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304'  
+------and rh1.product_count_flag='Y' 
+) 
+) agr
+
+
+inner join 
+
+---------------- products threes
+
+(
+(select  'SGBEN'  entity ,  s1.* from ibfs_BEN_rep.V_C_product_MKTRE   s1 where  s1.Product_Group_Name_EN_4 in ('Overdraft'))  union all
+(select  'SGCIV'  entity ,  s1.* from ibfs_CIV_rep.V_C_product_MKTRE   s1 where  s1.Product_Group_Name_EN_4 in ('Overdraft'))  union all
+(select  'SGBFA'  entity ,  s1.* from ibfs_BFA_rep.V_C_product_MKTRE   s1 where  s1.Product_Group_Name_EN_4 in ('Overdraft'))  union all
+(select  'SGGHA'  entity ,  s1.* from ibfs_GHA_rep.V_C_product_MKTRE   s1 where  s1.Product_Group_Name_EN_4 in ('Overdraft')) 
+) pdr on pdr.product_code=agr.product_code and pdr.entity=agr.entity  left join
+
+---------exchange rate
+(
+select distinct 'SGCIV' as entity, Currency1_Code, Currency2_Code, to_char(cast(date_valid as date),'yyyymm') Date_Valid,  Rate_Value
+from ibfs_CIV_dw_vu.dm_currency_rate where to_char(cast(date_valid as date),'yyyymm')='202304'   and Currency2_Code = 'EUR' union
+
+select distinct 'SGBEN' as entity, Currency1_Code, Currency2_Code, to_char(cast(date_valid as date),'yyyymm') Date_Valid,  Rate_Value
+from ibfs_BEN_dw_vu.dm_currency_rate where to_char(cast(date_valid as date),'yyyymm')='202304'   and Currency2_Code = 'EUR'union
+
+select distinct 'SGBFA' as entity, Currency1_Code, Currency2_Code, to_char(cast(date_valid as date),'yyyymm') Date_Valid,  Rate_Value
+from ibfs_BFA_dw_vu.dm_currency_rate where to_char(cast(date_valid as date),'yyyymm')='202304'   and Currency2_Code = 'EUR' union
+
+select distinct 'SGGHA' as entity, Currency1_Code, Currency2_Code, to_char(cast(date_valid as date),'yyyymm') Date_Valid,  Rate_Value
+from ibfs_GHA_dw_vu.dm_currency_rate where to_char(cast(date_valid as date),'yyyymm')='202304'   and Currency2_Code = 'EUR' 
+
+) tx on tx.Date_Valid=agr.month_id and tx.entity=agr.entity 
+
+where seg_client_tag_detail in ('Particulier' ,'Particulier')
+
+) ba 
+
+group by ba.date_valid, ba.seg_client_tag_detail, ba.month_id, ba.entity,ba.party_Id
+
+
+) r4 on r1.party_id=r4.party_id and r1.month_id=r4.month_id and r1.pays=r4.entity left join
+
+
+
+
+------------------- Encoours, des depot
+
+(
+
+select  ba.date_valid, ba.seg_client_tag_detail, ba.month_id, ba.entity,ba.party_Id,
+
+max(ba.flag_Current*ba.product_count_flag) as flag_Compte_courant,
+
+max( 
+decode(ba.entity,'SGCIV',1,0)*(case when  ba.Product_code in ('504000','505000') then 0 else 1 end)*ba.flag_Current*ba.product_count_flag +
+decode(ba.entity,'SGCIV',0,1)*flag_Current*ba.product_count_flag 
+) as flag_Compte_courant_ppo,
+
+sum(ba.flag_Current*ba.New_Product_Flag) as prod_Compte_courant,
+sum(ba.flag_Current*ba.product_count_flag) as stock_Compte_courant,
+sum(ba.flag_Current*ba.Product_amt_LC*ba.product_count_flag) as encours_Compte_courant_lc,
+sum(ba.flag_Current*ba.Product_amt_euro*ba.product_count_flag) as encours_Compte_courant,
+sum(ba.flag_Current*ba.Product_amt_LC*ba.product_count_flag*ba.type_posi) as encours_Compte_courant_posi_lc,
+sum(ba.flag_Current*ba.Product_amt_euro*ba.product_count_flag*ba.type_posi) as encours_Compte_courant_posi,
+
+max(ba.flag_Investment*ba.product_count_flag*ba.type_st) as flag_Placement,
+sum(ba.flag_Investment*ba.New_Product_Flag*ba.type_nx) as prod_Placement,
+sum(ba.flag_Investment*ba.product_count_flag*ba.type_st) as stock_Placement,
+sum(ba.flag_Investment*ba.Product_amt_LC*ba.product_count_flag*ba.type_st) as encours_Placement_lc,
+sum(ba.flag_Investment*ba.Product_amt_euro*ba.product_count_flag*ba.type_st) as encours_Placement,
+sum(ba.flag_Investment*ba.Product_amt_LC*ba.product_count_flag*ba.type_st*ba.type_posi) as encours_Placement_posi_lc,
+sum(ba.flag_Investment*ba.Product_amt_euro*ba.product_count_flag*ba.type_st*ba.type_posi) as encours_Placement_posi,
+
+max(ba.flag_Saving*ba.product_count_flag*ba.type_st) as flag_Epargne,
+sum(ba.flag_Saving*ba.New_Product_Flag*ba.type_nx) as prod_Epargne,
+sum(ba.flag_Saving*ba.product_count_flag*ba.type_st) as stock_Epargne,
+sum(ba.flag_Saving*ba.Product_amt_LC*ba.product_count_flag*ba.type_st) as encours_Epargne_lc,
+sum(ba.flag_Saving*ba.Product_amt_euro*ba.product_count_flag*ba.type_st) as encours_Epargne,
+sum(ba.flag_Saving*ba.Product_amt_LC*ba.product_count_flag*ba.type_st*ba.type_posi) as encours_Epargne_posi_lc,
+sum(ba.flag_Saving*ba.Product_amt_euro*ba.product_count_flag*ba.type_st*ba.type_posi) as encours_Epargne_posi
+
+from 
+
+(
+select agr.entity,agr.month_id,agr.date_valid,agr.party_Id,agr.Product_code,
+agr.Product_amt_LC/tx.Rate_Value as Product_amt_euro, agr.Product_amt_LC, agr.Agreement_Id,
+
+case when abs(agr.Product_amt_LC)>=0 then 1 else 0 end type_nx,
+case when agr.Product_amt_LC>=0 then 1 else 0 end type_posi,
+case when abs(agr.Product_amt_LC)>0 then 1 else 0 end type_st,
+decode(agr.New_Product_Flag,'Y',1,0)  New_Product_Flag,
+
+case
+when substr(Segmentation_Code_IBFS,1,3)='101' and Mandatory_product_Flag= 'Y' then 'Particulier'
+when substr(Segmentation_Code_IBFS,1,3)='102' and Mandatory_product_Flag= 'Y' then 'Professionel'
+when segmentation_Code_IBFS='10301' and Mandatory_product_Flag= 'Y' then 'Professionel'
+when substr(Segmentation_Code_IBFS,1,3) in ('201','202','203','301') or Segmentation_Code_IBFS='10302' then 'Corporate'
+else 'not def' end as seg_client_tag_detail, 
+case when pdr.product_group_code_4 like '1RECC%' then 'Current'
+when pdr.product_group_code_4 like '1REEP%' and pdr.product_group_code_3='1REEPPL' then 'Investment'
+when pdr.product_group_code_4 like '1REEP%' and pdr.product_group_code_3='1REEPEP' then 'Saving' end as type_product,
+
+decode(product_count_flag,'Y',1,0) product_count_flag,
+case when type_product='Current' then 1 else 0 end as flag_Current,
+case when type_product='Investment' then 1 else 0 end as flag_Investment,
+case when type_product='Saving' then 1 else 0 end as flag_Saving
+
+
+from 
+
+---------------- Agreement tables for entities
+
+(
+(
+select 'SGBEN' entity, 
+rh1.New_Product_Flag, rh1.date_valid, rh1.Segmentation_Code_IBFS,rh1.product_count_flag, rh1.Mandatory_product_Flag,rh1.Party_Id, 
+to_char(cast(rh1.date_valid as date),'yyyymm') as month_id, rh1.Product_amt_LC, rh1.Agreement_Id, rh1.product_code
+from  ibfs_BEN_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'  AND Product_amt_LC is not null
+ and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y'and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304'  
+------and rh1.product_count_flag='Y' 
+)  union all
+
+(
+select 'SGCIV' entity, 
+rh1.New_Product_Flag, rh1.date_valid, rh1.Segmentation_Code_IBFS,rh1.product_count_flag, rh1.Mandatory_product_Flag,rh1.Party_Id, 
+to_char(cast(rh1.date_valid as date),'yyyymm') as month_id, rh1.Product_amt_LC, rh1.Agreement_Id, rh1.product_code
+from  ibfs_CIV_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'  AND Product_amt_LC is not null 
+and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y'and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304'  
+-------Manko exclusion
+----- and rh1.Profile_Code not in ('810', '820', '830', '840', '850')
+------and rh1.product_count_flag='Y' 
+)  union all
+
+(
+select 'SGBFA' entity, 
+rh1.New_Product_Flag, rh1.date_valid, rh1.Segmentation_Code_IBFS,rh1.product_count_flag, rh1.Mandatory_product_Flag,rh1.Party_Id, 
+to_char(cast(rh1.date_valid as date),'yyyymm') as month_id, rh1.Product_amt_LC, rh1.Agreement_Id, rh1.product_code
+from  ibfs_BFA_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'  AND Product_amt_LC is not null 
+and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y'and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304'  
+------and rh1.product_count_flag='Y' 
+)  union all
+
+(
+select 'SGGHA' entity, 
+rh1.New_Product_Flag, rh1.date_valid, rh1.Segmentation_Code_IBFS,rh1.product_count_flag, rh1.Mandatory_product_Flag,rh1.Party_Id, 
+to_char(cast(rh1.date_valid as date),'yyyymm') as month_id, rh1.Product_amt_LC, rh1.Agreement_Id, rh1.product_code
+from  ibfs_GHA_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C' AND Product_amt_LC is not null  
+and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y'and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304'  
+------and rh1.product_count_flag='Y' 
+) 
+) agr
+
+
+inner join 
+
+---------------- products threes
+
+(
+(select  'SGBEN'  entity ,  s1.* from ibfs_BEN_rep.V_C_product_MKTRE   s1 where   s1.product_group_code_4 like '1RECC%' or s1.product_group_code_4 like '1REEP%')  union all
+(select  'SGCIV'  entity ,  s1.* from ibfs_CIV_rep.V_C_product_MKTRE   s1 where   s1.product_group_code_4 like '1RECC%' or s1.product_group_code_4 like '1REEP%')  union all
+(select  'SGBFA'  entity ,  s1.* from ibfs_BFA_rep.V_C_product_MKTRE   s1 where   s1.product_group_code_4 like '1RECC%' or s1.product_group_code_4 like '1REEP%')  union all
+(select  'SGGHA'  entity ,  s1.* from ibfs_GHA_rep.V_C_product_MKTRE   s1 where   s1.product_group_code_4 like '1RECC%' or s1.product_group_code_4 like '1REEP%') 
+) pdr on pdr.product_code=agr.product_code and pdr.entity=agr.entity  left join
+
+---------exchange rate
+(
+select distinct 'SGCIV' as entity, Currency1_Code, Currency2_Code, to_char(cast(date_valid as date),'yyyymm') Date_Valid,  Rate_Value
+from ibfs_CIV_dw_vu.dm_currency_rate where to_char(cast(date_valid as date),'yyyymm')='202304'   and Currency2_Code = 'EUR' union
+
+select distinct 'SGBEN' as entity, Currency1_Code, Currency2_Code, to_char(cast(date_valid as date),'yyyymm') Date_Valid,  Rate_Value
+from ibfs_BEN_dw_vu.dm_currency_rate where to_char(cast(date_valid as date),'yyyymm')='202304'   and Currency2_Code = 'EUR'union
+
+select distinct 'SGBFA' as entity, Currency1_Code, Currency2_Code, to_char(cast(date_valid as date),'yyyymm') Date_Valid,  Rate_Value
+from ibfs_BFA_dw_vu.dm_currency_rate where to_char(cast(date_valid as date),'yyyymm')='202304'   and Currency2_Code = 'EUR' union
+
+select distinct 'SGGHA' as entity, Currency1_Code, Currency2_Code, to_char(cast(date_valid as date),'yyyymm') Date_Valid,  Rate_Value
+from ibfs_GHA_dw_vu.dm_currency_rate where to_char(cast(date_valid as date),'yyyymm')='202304'   and Currency2_Code = 'EUR' 
+
+) tx on tx.Date_Valid=agr.month_id and tx.entity=agr.entity 
+
+where seg_client_tag_detail in ('Particulier','Particulier')
+
+) ba 
+
+group by ba.date_valid, ba.seg_client_tag_detail, ba.month_id, ba.entity,ba.party_Id
+
+
+
+
+) r5 on r1.party_id=r5.party_id and r1.month_id=r5.month_id and r1.pays=r5.entity left join
+
+
+--------  Credit
+
+(
+
+select   ba.date_valid, ba.seg_client_tag_detail, ba.month_id, ba.entity,ba.party_Id,
+
+max(ba.flag_PPO*ba.product_count_flag*ba.type_st) as flag_PPO_old,
+sum(ba.flag_PPO*ba.product_count_flag*ba.type_st) as stock_PPO,
+sum(ba.flag_PPO*ba.product_count_flag*ba.type_st*ba.Product_amt_LC) as encours_PPO_lc,
+sum(ba.flag_PPO*ba.product_count_flag*ba.type_st*ba.Product_amt_euro) as encours_PPO,
+
+sum(ba.flag_PPO*ba.New_Product_Flag) as nb_nvll_souscription_PPO,
+sum(ba.flag_PPO*ba.New_Product_Flag*ba.Sale_Amt_LC) as mtn_nvll_souscription_PPO_lc,
+sum(ba.flag_PPO*ba.New_Product_Flag*ba.Sale_Amt_euro) as mtn_nvll_souscription_PPO,
+  
+max(ba.flag_PPI*ba.product_count_flag*ba.type_st) as flag_PPI_old,
+sum(ba.flag_PPI*ba.product_count_flag*ba.type_st) as stock_PPI,
+sum(ba.flag_PPI*ba.product_count_flag*ba.type_st*ba.Product_amt_LC) as encours_PPI_lc,
+sum(ba.flag_PPI*ba.product_count_flag*ba.type_st*ba.Product_amt_euro) as encours_PPI,
+
+sum(ba.flag_PPI*ba.New_Product_Flag) as nb_nvll_souscription_PPI,
+sum(ba.flag_PPI*ba.New_Product_Flag*ba.Sale_Amt_LC) as mtn_nvll_souscription_PPI_lc,
+sum(ba.flag_PPI*ba.New_Product_Flag*ba.Sale_Amt_euro) as mtn_nvll_souscription_PPI,
+
+max(ba.flag_COMPRO*ba.product_count_flag*ba.type_st) as flag_COMPRO,
+max(ba.flag_COMPRO_PPO*ba.product_count_flag*ba.type_st) as flag_COMPRO_PPO,
+max(ba.flag_COMPRO_PPI*ba.product_count_flag*ba.type_st) as flag_COMPRO_PPI,
+sum(ba.flag_COMPRO*ba.product_count_flag*ba.type_st) as stock_tot_Contentious_Loans,
+sum(ba.flag_COMPRO*ba.product_count_flag*ba.type_st*ba.Product_amt_LC) as amt_lc_tot_Contentious_Loans,
+sum(ba.flag_COMPRO*ba.product_count_flag*ba.type_st*ba.Product_amt_euro) as amt_euro_tot_Contentious_Loans,
+
+sum(ba.flag_COMPRO*ba.New_Product_Flag) as nber_new_Contentious_Loans,
+sum(ba.flag_COMPRO*ba.New_Product_Flag*ba.Sale_Amt_LC) as amt_lc_new_Contentious_Loans,
+sum(ba.flag_COMPRO*ba.New_Product_Flag*ba.Sale_Amt_euro) as amt_euro_new_Contentious_Loans,
+
+/***************************taux equi ******************************************/
+case when max(ba.flag_PPO*ba.product_count_flag*ba.type_st)+max(ba.flag_COMPRO_PPO*ba.product_count_flag*ba.type_st)>0 then 1 else 0 end as flag_PPO,
+case when max(ba.flag_PPI*ba.product_count_flag*ba.type_st)+max(ba.flag_COMPRO_PPI*ba.product_count_flag*ba.type_st)>0 then 1 else 0 end as flag_PPI,
+
+---------------------------------
+
+max(ba.flag_CYCLE_EXPLOI*ba.product_count_flag*ba.type_nx) as flag_CYCLE_EXPLOI,
+sum(ba.flag_CYCLE_EXPLOI*ba.product_count_flag*ba.type_nx) as stock_tot_Working_capital_finan,
+sum(ba.flag_CYCLE_EXPLOI*ba.product_count_flag*ba.type_nx*abs(ba.Product_amt_LC)) as amt_lc_tot_Working_capital_finan,
+sum(ba.flag_CYCLE_EXPLOI*ba.product_count_flag*ba.type_nx*abs(ba.Product_amt_euro)) as amt_euro_tot_Working_capital_finan,
+
+sum(ba.flag_CYCLE_EXPLOI*ba.New_Product_Flag) as nber_new_Working_capital_finan,
+sum(ba.flag_CYCLE_EXPLOI*ba.New_Product_Flag*ba.Sale_Amt_LC) as amt_lc_new_Working_capital_finan,
+sum(ba.flag_CYCLE_EXPLOI*ba.New_Product_Flag*ba.Sale_Amt_euro) as amt_euro_new_Working_capital_finan,
+
+max(ba.flag_INVEST*ba.product_count_flag*ba.type_nx) as flag_INVEST,
+sum(ba.flag_INVEST*ba.product_count_flag*ba.type_nx) as stock_tot_Investment,
+sum(ba.flag_INVEST*ba.product_count_flag*ba.type_nx*abs(ba.Product_amt_LC)) as amt_lc_tot_Investment,
+sum(ba.flag_INVEST*ba.product_count_flag*ba.type_nx*abs(ba.Product_amt_euro)) as amt_euro_tot_Investment,
+
+sum(ba.flag_INVEST*ba.New_Product_Flag) as nber_new_Investment,
+sum(ba.flag_INVEST*ba.New_Product_Flag*ba.Sale_Amt_LC) as amt_lc_new_Investment,
+sum(ba.flag_INVEST*ba.New_Product_Flag*ba.Sale_Amt_euro) as amt_euro_new_Investment,
+
+max(ba.flag_CRE_BAIL*ba.product_count_flag*ba.type_nx) as flag_CRE_BAIL,
+sum(ba.flag_CRE_BAIL*ba.product_count_flag*ba.type_nx) as stock_tot_Leasing,
+sum(ba.flag_CRE_BAIL*ba.product_count_flag*ba.type_nx*abs(ba.Product_amt_LC)) as amt_lc_tot_Leasing,
+sum(ba.flag_CRE_BAIL*ba.product_count_flag*ba.type_nx*abs(ba.Product_amt_euro)) as amt_euro_tot_Leasing,
+
+sum(ba.flag_CRE_BAIL*ba.New_Product_Flag) as nber_new_Leasing,
+sum(ba.flag_CRE_BAIL*ba.New_Product_Flag*ba.Sale_Amt_LC) as amt_lc_new_Leasing,
+sum(ba.flag_CRE_BAIL*ba.New_Product_Flag*ba.Sale_Amt_euro) as amt_euro_new_Leasing
+
+
+from 
+
+(
+select agr.entity,agr.month_id,agr.date_valid,agr.party_Id,agr.Agreement_Id,
+
+agr.Product_amt_LC/tx.Rate_Value as Product_amt_euro, agr.Product_amt_LC,
+agr.Sale_Amt_LC/tx.Rate_Value as  Sale_Amt_euro, agr.Sale_Amt_LC,
+
+case when abs(agr.Product_amt_LC)>=0 then 1 else 0 end type_nx,
+case when abs(agr.Product_amt_LC)>0 then 1 else 0 end type_st,
+decode(agr.New_Product_Flag,'Y',1,0)  New_Product_Flag,
+decode(product_count_flag,'Y',1,0) product_count_flag,
+
+case
+when substr(Segmentation_Code_IBFS,1,3)='101' and Mandatory_product_Flag= 'Y' then 'Particulier'
+when substr(Segmentation_Code_IBFS,1,3)='102' and Mandatory_product_Flag= 'Y' then 'Professionel'
+when segmentation_Code_IBFS='10301' and Mandatory_product_Flag= 'Y' then 'Professionel'
+when substr(Segmentation_Code_IBFS,1,3) in ('201','202','203','301') or Segmentation_Code_IBFS='10302' then 'Corporate'
+else 'not def' end as seg_client_tag_detail,
+
+case 
+
+when Product_group_code_4 like '1RECRCC%' then 'PPO'
+when Product_group_code_4 like '1RECRCI%' then 'PPI' 
+when Product_group_code_4 like '1RECRCL%' then 'COMPRO' 
+when Product_group_code_4 like '1RECRCE%' then 'CYCLE_EXPLOI'
+when Product_group_code_4 like '1RECRCV%' then 'INVEST' 
+else 'CRE_BAIL' end as type_product,
+
+case when type_product='PPO' then 1 else 0 end as flag_PPO,
+case when type_product='PPI' then 1 else 0 end as flag_PPI,
+case when type_product='COMPRO' then 1 else 0 end as flag_COMPRO,
+
+case when type_product='COMPRO' and Product_group_code_4='1RECRCLCL' then 1 else 0 end as flag_COMPRO_PPO,
+
+case when type_product='COMPRO' and Product_group_code_4='1RECRCLML' then 1 else 0 end as flag_COMPRO_PPI,
+
+case when type_product='CYCLE_EXPLOI' then 1 else 0 end as flag_CYCLE_EXPLOI,
+case when type_product='INVEST' then 1 else 0 end as flag_INVEST,
+case when type_product='CRE_BAIL' then 1 else 0 end as flag_CRE_BAIL
+
+from 
+---------------- Agreement tables for entities
+
+(
+
+(
+select 'SGBEN' entity, 
+rh1.New_Product_Flag, rh1.date_valid, rh1.Segmentation_Code_IBFS,rh1.product_count_flag, rh1.Mandatory_product_Flag,rh1.Party_Id,rh1.Sale_Amt_LC,  
+to_char(cast(rh1.date_valid as date),'yyyymm') as month_id, rh1.Product_amt_LC, rh1.Agreement_Id, rh1.product_code
+from  ibfs_BEN_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'  
+ and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y'and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304'  
+------and rh1.product_count_flag='Y' 
+)  union all
+
+(
+select 'SGCIV' entity, 
+rh1.New_Product_Flag, rh1.date_valid, rh1.Segmentation_Code_IBFS,rh1.product_count_flag, rh1.Mandatory_product_Flag,rh1.Party_Id,rh1.Sale_Amt_LC,  
+to_char(cast(rh1.date_valid as date),'yyyymm') as month_id, rh1.Product_amt_LC, rh1.Agreement_Id, rh1.product_code
+from  ibfs_CIV_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'  
+and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y'and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304'  
+-------Manko exclusion
+----- and rh1.Profile_Code not in ('810', '820', '830', '840', '850')
+------and rh1.product_count_flag='Y' 
+)  union all
+
+(
+select 'SGBFA' entity, 
+rh1.New_Product_Flag, rh1.date_valid, rh1.Segmentation_Code_IBFS,rh1.product_count_flag, rh1.Mandatory_product_Flag,rh1.Party_Id,rh1.Sale_Amt_LC,  
+to_char(cast(rh1.date_valid as date),'yyyymm') as month_id, rh1.Product_amt_LC, rh1.Agreement_Id, rh1.product_code
+from  ibfs_BFA_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'  
+and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y'and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304'  
+------and rh1.product_count_flag='Y' 
+)  union all
+
+(
+select 'SGGHA' entity, 
+rh1.New_Product_Flag, rh1.date_valid, rh1.Segmentation_Code_IBFS,rh1.product_count_flag, rh1.Mandatory_product_Flag,rh1.Party_Id, rh1.Sale_Amt_LC, 
+to_char(cast(rh1.date_valid as date),'yyyymm') as month_id, rh1.Product_amt_LC, rh1.Agreement_Id, rh1.product_code
+from  ibfs_GHA_m_marketing_vu.vf_dm_agreement_detail  rh1 where  rh1.org_structure_type='C' and  rh1.party_status='C'  
+and  rh1.product_status='Y' and  rh1.mandatory_product_flag='Y'and to_char(cast(rh1.date_valid as date),'yyyymm')= '202304'  
+------and rh1.product_count_flag='Y' 
+) 
+) agr
+------------------ ,'1RECRCE','1RECRCV','1RECRCB'
+
+inner join 
+
+---------------- products threes
+
+(
+(select  'SGBEN'  entity ,  s1.* from ibfs_BEN_rep.V_C_product_MKTRE   s1 where  s1.Product_Group_Code_3 in ('1RECRCC','1RECRCI','1RECRCL','1RECRCE','1RECRCV','1RECRCB'))  union all
+(select  'SGCIV'  entity ,  s1.* from ibfs_CIV_rep.V_C_product_MKTRE   s1 where  s1.Product_Group_Code_3 in ('1RECRCC','1RECRCI','1RECRCL','1RECRCE','1RECRCV','1RECRCB'))  union all
+(select  'SGBFA'  entity ,  s1.* from ibfs_BFA_rep.V_C_product_MKTRE   s1 where  s1.Product_Group_Code_3 in ('1RECRCC','1RECRCI','1RECRCL','1RECRCE','1RECRCV','1RECRCB'))  union all
+(select  'SGGHA'  entity ,  s1.* from ibfs_GHA_rep.V_C_product_MKTRE   s1 where  s1.Product_Group_Code_3 in ('1RECRCC','1RECRCI','1RECRCL','1RECRCE','1RECRCV','1RECRCB')) 
+) pdr on pdr.product_code=agr.product_code and pdr.entity=agr.entity  left join
+
+---------exchange rate
+(
+select distinct 'SGCIV' as entity, Currency1_Code, Currency2_Code, to_char(cast(date_valid as date),'yyyymm') Date_Valid,  Rate_Value
+from ibfs_CIV_dw_vu.dm_currency_rate where to_char(cast(date_valid as date),'yyyymm')='202304'   and Currency2_Code = 'EUR' union
+
+select distinct 'SGBEN' as entity, Currency1_Code, Currency2_Code, to_char(cast(date_valid as date),'yyyymm') Date_Valid,  Rate_Value
+from ibfs_BEN_dw_vu.dm_currency_rate where to_char(cast(date_valid as date),'yyyymm')='202304'   and Currency2_Code = 'EUR'union
+
+select distinct 'SGBFA' as entity, Currency1_Code, Currency2_Code, to_char(cast(date_valid as date),'yyyymm') Date_Valid,  Rate_Value
+from ibfs_BFA_dw_vu.dm_currency_rate where to_char(cast(date_valid as date),'yyyymm')='202304'   and Currency2_Code = 'EUR' union
+
+select distinct 'SGGHA' as entity, Currency1_Code, Currency2_Code, to_char(cast(date_valid as date),'yyyymm') Date_Valid,  Rate_Value
+from ibfs_GHA_dw_vu.dm_currency_rate where to_char(cast(date_valid as date),'yyyymm')='202304'   and Currency2_Code = 'EUR' 
+
+) tx on tx.Date_Valid=agr.month_id and tx.entity=agr.entity 
+
+where seg_client_tag_detail in ('Particulier','Particulier')
+
+) ba 
+
+group by ba.date_valid, ba.seg_client_tag_detail, ba.month_id, ba.entity,ba.party_Id
+
+) r7 on r1.party_id=r7.party_id and r1.month_id=r7.month_id and r1.pays=r7.entity
+
+
+
+
+group by
+
+
+r1.pays,
+r1.month_id,
+r1.Date_Valid,
+r1.Activity_Flag,
+r1.New_Client_Flag,
+
+r1.Segments_od,
+r1.seg_client_tag_detail,
+
+
+nvl(r2.flag_carte_owner,0),
+nvl(r2.flag_BANK_MOBILE,0),
+nvl(r2.flag_BANK_INTERNET,0),
+nvl(r3.flag_connect_owner,0),
+NVL(r4.flag_decouver_owner,0),
+
+nvl(r7.flag_PPO_old,0),
+nvl(r7.flag_PPO,0),  
+nvl(r7.flag_PPI,0),
+nvl(r7.flag_PPI_old,0),
+
+nvl(r5.flag_Compte_courant,0),
+nvl(r5.flag_Compte_courant_ppo,0),
+nvl(r5.flag_Placement,0),
+nvl(r5.flag_Epargne,0)
+;
+
+
+
